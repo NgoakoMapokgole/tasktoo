@@ -6,6 +6,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
 import java.util.Scanner;
+import org.json.JSONObject;
 
 public class XMLReader {
     public static void main(String[] args) {
@@ -24,18 +25,19 @@ public class XMLReader {
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
-                System.out.println("\nCurrent Element: " + node.getNodeName());
 
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
+                    JSONObject jsonObject = new JSONObject();
                     for (String field : fields) {
                         field = field.trim();
                         try {
-                            System.out.println(field + ": " + element.getElementsByTagName(field).item(0).getTextContent());
+                            jsonObject.put(field, element.getElementsByTagName(field).item(0).getTextContent());
                         } catch (Exception e) {
-                            System.out.println(field + ": Not Found");
+                            jsonObject.put(field, "Not Found");
                         }
                     }
+                    System.out.println(jsonObject.toString(4)); // Pretty print with an indent of 4 spaces
                 }
             }
         } catch (Exception e) {
