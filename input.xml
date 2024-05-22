@@ -1,0 +1,10 @@
+<records>
+    <record>
+        <field1>Value1</field1>
+        <field2>Value2</field2>
+    </record>
+    <record>
+        <field1>Value3</field1>
+        <field2>Value4</field2>
+    </record>
+</records>
