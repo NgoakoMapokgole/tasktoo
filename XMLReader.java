@@ -5,6 +5,7 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
+import java.util.Scanner;
 
 public class XMLReader {
     public static void main(String[] args) {
@@ -15,7 +16,9 @@ public class XMLReader {
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
 
-            System.out.println("Root element: " + doc.getDocumentElement().getNodeName());
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter the fields you want to display (comma separated): ");
+            String[] fields = scanner.nextLine().split(",");
 
             NodeList nodeList = doc.getElementsByTagName("record");
 
@@ -25,9 +28,14 @@ public class XMLReader {
 
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
-                    System.out.println("Field1: " + element.getElementsByTagName("field1").item(0).getTextContent());
-                    System.out.println("Field2: " + element.getElementsByTagName("field2").item(0).getTextContent());
-                    // Add more fields as needed
+                    for (String field : fields) {
+                        field = field.trim();
+                        try {
+                            System.out.println(field + ": " + element.getElementsByTagName(field).item(0).getTextContent());
+                        } catch (Exception e) {
+                            System.out.println(field + ": Not Found");
+                        }
+                    }
                 }
             }
         } catch (Exception e) {
